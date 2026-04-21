@@ -4,7 +4,7 @@
 
 #define MAX_STUDENTS 50
 #define NAME_LEN     50
-
+#define MAX(a, b) (a > b ? a : b)
 // 学生结构体
 typedef struct {
     char name[NAME_LEN];
@@ -13,10 +13,22 @@ typedef struct {
 
 Student students[MAX_STUDENTS];
 int n;
-
+int binary_search_re(const char *target_name, int left, int right);
 int binary_search(const char *target_name) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    return binary_search_re(target_name, 0, n - 1);
+}
+
+int binary_search_re(const char *target_name, int left, int right) {
+    if(left >= right) {
+        return -1;
+    }
+    int mid = left + (right - left) / 2;
+    if (strcmp(target_name, students[mid].name) == 0) {
+        return mid;
+    }
+    int left_result = binary_search_re(target_name, left, mid - 1);
+    int right_result = binary_search_re(target_name, mid + 1, right);
+    return MAX(left_result, right_result);
 }
 
 int main(void) {
